@@ -1,4 +1,4 @@
-const images = [ { preview:
+const images = [{ preview:
 'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
 original:
 'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
@@ -35,8 +35,8 @@ description: 'Nature Landscape', }, { preview:
 original:
 'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg',
 description: 'Lighthouse Coast Sea', }, ]; const galleryContainer =
-document.querySelector('ul.gallery'); const galleryMarkup = images .map( ({
-preview, original, description }) => `
+document.querySelector('.gallery'); const galleryMarkup = images .map(({
+preview, original, description }) => { return `
 <li class="gallery-item">
   <a class="gallery-link" href="${original}">
     <img
@@ -44,32 +44,13 @@ preview, original, description }) => `
       src="${preview}"
       data-source="${original}"
       alt="${description}"
-      width="360"
-      height="200"
     />
   </a>
 </li>
-` ) .join(''); galleryContainer.innerHTML = galleryMarkup;
-galleryContainer.addEventListener('click', event => { event.preventDefault();
-const link = event.target.closest('.gallery-link'); if (!link) return; const
-largeImageUrl = link.querySelector('.gallery-image').dataset.source; const
-imageAlt = link.querySelector('.gallery-image').alt; const instance =
-basicLightbox.create( `
-<div class="modal">
-  <img
-    src="${largeImageUrl}"
-    alt="${imageAlt}"
-    width="1112"
-    height="640"
-    loading="lazy"
-  />
-</div>
-`, { className: 'custom-modal', onShow: () => {
-document.addEventListener('keydown', onEscapePress); }, onClose: () => {
-document.removeEventListener('keydown', onEscapePress); }, } ); function
-onEscapePress(event) { if (event.code === 'Escape') { instance.close(); } }
-instance.show(); }); // function showModalWithImage(src) { // const modal =
-document.createElement('div'); // modal.classList.add('modal-overlay'); //
-modal.innerHTML = `<img src="${src}" class="modal-image" />`; //
-document.body.appendChild(modal); // modal.addEventListener('click', () =>
-modal.remove()); // }
+`; }) .join(''); galleryContainer.innerHTML = galleryMarkup;
+galleryContainer.addEventListener('click', (e) => { e.preventDefault(); const
+target = e.target; if (target.nodeName !== 'IMG') return; const largeImage =
+target.dataset.source; const altText = target.alt; const instance =
+basicLightbox.create(`
+<img src="${largeImage}" alt="${altText}" />
+`); instance.show(); });
